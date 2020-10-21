@@ -1,0 +1,259 @@
+{
+	"info": {
+		"_postman_id": "61c4fcd5-8a2a-4983-87b6-2998d3d58bf0",
+		"name": "User create store and item",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "{{url}}/register Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1c0140a8-0d19-41af-921c-b0735f37534f",
+						"exec": [
+							"postman.clearEnvironmentVariable(\"access_token\");\r",
+							"tests[\"Response time is less than 200ms\"] = responseTime < 200;\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"tests[\"User created successfully\"] = jsonData.message === \"User created successfully.\";\r",
+							"tests[\"Content-type is present in response\"] = postman.getResponseHeader('Content-Type');\r",
+							"tests[\"Content-Type is application/json\"] = postman.getResponseHeader('Content-Type') === 'application/json';"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"test22\",\r\n    \"password\": \"asfsd1\"\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/register",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/auth Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4c9a570c-8c5a-4881-8b60-c6cd54880cdf",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"access_token\", jsonData.access_token);\r",
+							"\r",
+							"tests[\"response is 200\"] = responseCode.code === 200;\r",
+							"tests[\"Body has access token\"] = responseBody.has(\"access_token\");\r",
+							"tests[\"Response time is less than 150ms\"] = responseTime < 150;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "JWT",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"test22\",\r\n    \"password\": \"asfsd1\"\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/auth",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/store/test_store Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "37428e30-d308-4bcd-8e5e-e3a49573a435",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"tests[\"Store name is returned\"] = jsonData.name === 'test_store';\r",
+							"tests[\"Store id is returned\"] = jsonData.store_id === 1;\r",
+							"\r",
+							"tests[\"Successful POST request\"] = responseCode.code === 201;\r",
+							"tests[\"Response time is less than 200ms\"] = responseTime < 200;\r",
+							"\r",
+							"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");\r",
+							"tests[\"Content-Type is 'application/json'\"] = postman.getResponseHeader(\"Content-Type\") === 'application/json';\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"store_id\", jsonData.store_id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/store/test_store",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"store",
+						"test_store"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/item/test_item in test_store Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6cc991d9-9301-4647-93ae-f3a9953b99cf",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"tests[\"Item name is returned\"] = jsonData.name === 'test_item';\r",
+							"tests[\"Item price is returned\"] = jsonData.price === 17.99;\r",
+							"tests[\"Successful POST request\"] = responseCode.code === 201;\r",
+							"tests[\"Response time is less than 200ms\"] = responseTime < 200;\r",
+							"\r",
+							"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");\r",
+							"tests[\"Content-Type is 'application/json'\"] = postman.getResponseHeader(\"Content-Type\") === 'application/json';"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"price\": 17.99,\r\n\t\"store_id\": {{store_id}}\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/item/test_item",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"item",
+						"test_item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/stores Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/stores",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"stores"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/store/<name> copy Copy",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/store/test_store",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"store",
+						"test_store"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/item/my_item copy Copy",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/item/test_item",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"item",
+						"test_item"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
