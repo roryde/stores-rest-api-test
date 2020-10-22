@@ -15,6 +15,7 @@ class StoreTest(BaseTest):
         store = StoreModel('test')
         expected = {
             'name': 'test',
+            'store_id': None,
             'items': []
         }
 
